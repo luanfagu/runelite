@@ -82,11 +82,10 @@ public class HttpServerPlugin extends Plugin
 
 		JsonObject object = new JsonObject();
 
-		int usedInventorySlots = 0;
+		long usedInventorySlots = 0;
 		ItemContainer itemContainer = client.getItemContainer(InventoryID.INVENTORY);
 		if (itemContainer != null)
-			for (Item item:itemContainer.getItems())
-				if (item.getQuantity() > 0 && item.getId() > -1) usedInventorySlots++;
+			usedInventorySlots = Arrays.stream(itemContainer.getItems()).filter(item -> item.getId() > -1 && item.getQuantity() > 0).count();
 
 		object.addProperty("usedInventorySlots", usedInventorySlots);
 		object.addProperty("currentActionAnimation", player.getAnimation());
